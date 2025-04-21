@@ -1,13 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getPost, updatePost } from "../services/api";
+//import { getPost, updatePost } from "../services/api";
 
-export default function EditPostPage() {
-
-}
-const EditPost = () => {
+const EditPostPage = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const [post, setPost] = useState({
     title: "",
     author: "",
@@ -103,3 +100,5 @@ const EditPost = () => {
     </div>
   );
 };
+
+export default EditPostPage;

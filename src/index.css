@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #646cff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -64,5 +64,121 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+}/* Base Styles */
+.edit-post {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.edit-post h1 {
+  color: #2d3748;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 600;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+/* Form Styles */
+.edit-post form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.edit-post label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 1rem;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.edit-post input[type="text"],
+.edit-post textarea {
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background-color:black
+}
+
+.edit-post input[type="text"]:focus,
+.edit-post textarea:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+  background-color: black;
+}
+
+.edit-post textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+/* Checkbox Styles */
+.edit-post .checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.edit-post input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #4299e1;
+  cursor: pointer;
+}
+
+/* Button Styles */
+.edit-post button[type="submit"] {
+  background-color: #4299e1;
+  color: blue;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 1rem;
+  align-self: flex-end;
+}
+
+.edit-post button[type="submit"]:hover {
+  background-color: #3182ce;
+}
+
+.edit-post button[type="submit"]:active {
+  background-color: #2b6cb0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .edit-post {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .edit-post h1 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .edit-post {
+    padding: 1rem;
+  }
+  
+  .edit-post button[type="submit"] {
+    width: 100%;
   }
 }
