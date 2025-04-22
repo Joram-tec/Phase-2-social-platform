@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-//import { getPost, updatePost } from "../services/api";
  
-
-  
 function EditPostPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -14,7 +11,7 @@ function EditPostPage() {
     isFavorite: false,
     isBlocked: false,
   });
-
+ 
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -97,11 +94,12 @@ function EditPostPage() {
           />
           Block
         </label>
-        <button type="submit">Update Post</button>
+        <button type="submit">Update Post
+          
+        </button>
       </form>
     </div>
   );
 }
-
-
 export default EditPostPage;
+

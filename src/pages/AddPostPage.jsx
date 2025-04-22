@@ -10,7 +10,7 @@ function AddPost() {
     isFavorite: false,
     isBlocked: false
   });
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
@@ -25,10 +25,10 @@ function AddPost() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     try {
       await axios.post('http://localhost:3001/posts', formData);
-      navigate('/'); // Redirect to post list after successful submission
+      navigate('/posts/1'); 
     } catch (error) {
       console.error('Error adding post:', error);
       alert('Failed to add post. Please try again.');
@@ -42,8 +42,7 @@ function AddPost() {
       <h1 className="mb-4">Create New Post</h1>
       
       <form onSubmit={handleSubmit}>
-        {/* Title Field */}
-        <div className="mb-3">
+               <div className="mb-3">
           <label htmlFor="title" className="form-label">Title*</label>
           <input
             type="text"
@@ -56,7 +55,7 @@ function AddPost() {
           />
         </div>
         
-        {/* Author Field */}
+       
         <div className="mb-3">
           <label htmlFor="author" className="form-label">Author*</label>
           <input
@@ -70,8 +69,7 @@ function AddPost() {
           />
         </div>
         
-        {/* Content Field */}
-        <div className="mb-3">
+               <div className="mb-3">
           <label htmlFor="content" className="form-label">Content*</label>
           <textarea
             className="form-control"
@@ -84,8 +82,7 @@ function AddPost() {
           ></textarea>
         </div>
         
-        {/* Status Toggles */}
-        <div className="mb-3">
+         <div className="mb-3">
           <div className="form-check form-switch">
             <input
               className="form-check-input"
@@ -115,8 +112,7 @@ function AddPost() {
           </div>
         </div>
         
-        {/* Submit Button */}
-        <button
+         <button
           type="submit"
           className="btn btn-primary"
           disabled={isSubmitting}

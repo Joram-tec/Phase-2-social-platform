@@ -4,12 +4,13 @@ import HomePage from "./pages/HomePage";
 import AddPostPage from "./pages/AddPostPage";
 import EditPostPage from "./pages/EditPostPage";
 import FavouritePostPage from "./pages/FavouritePostPage";
-import PostDetailsPage from "./pages/PostDetailsPage";
+import PostListPage from "./pages/PostListPage";
+import Footer from './Components/Footer';
 import './App.css';
 
 
 function App() {
-    return (  
+      return (  
       <div>
         <Navbar/>
         <Routes>
@@ -17,7 +18,7 @@ function App() {
           <Route path="/add" element={<AddPostPage />} />
           <Route path="/edit/:id" element={<EditPostPage />} />
           <Route path="/favourites" element={<FavouritePostPage />} />
-          <Route path="/post/:id" element={<PostDetailsPage />} />
+          <Route path="/posts/:id" element={<PostListPage />} />
         </Routes>
       </div>
   );
