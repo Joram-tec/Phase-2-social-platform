@@ -1,0 +1,12 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "First Post",
+      "author": "John Doe",
+      "content": "This is my first post content.",
+      "isFavorite": false,
+      "isBlocked": false
+    }
+  ]
+}

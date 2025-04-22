@@ -6,7 +6,7 @@ import Navbar from '../components/Navbar';
 import { getFavoritePosts, toggleFavorite, toggleBlock } from '../services/api';
 import '../styles/posts.css';
 
-const FavoritePostsPage = () => {
+const FavoritePostPage = () => {
   const [favoritePosts, setFavoritePosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -96,4 +96,5 @@ const FavoritePostsPage = () => {
   );
 };
 
-export default FavoritePostsPage;
+export default FavoritePostPage;
+
