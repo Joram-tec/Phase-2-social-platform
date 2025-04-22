@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 //import { getPost, updatePost } from "../services/api";
+ 
 
-const EditPostPage = () => {
+  
+function EditPostPage() {
   const { id } = useParams();
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   const [post, setPost] = useState({
     title: "",
     author: "",
@@ -99,6 +101,7 @@ const EditPostPage = () => {
       </form>
     </div>
   );
-};
+}
+
 
 export default EditPostPage;
