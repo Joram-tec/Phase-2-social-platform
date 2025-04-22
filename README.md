@@ -39,7 +39,7 @@ git clone https://github.com/Joram-tec/Phase-2-social-platform.git
 2. Navigate to the folder
 cd social-dashboard
 
-2. Install dependencies:##
+2. Install dependencies:
 npm install
 npm run dev
 
