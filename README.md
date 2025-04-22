@@ -1,5 +1,13 @@
 ## Social Dashboard
 
+## Collaborators
+1. Joram Wayne
+2. George Keli
+3. Boniface Mwangi
+4. Myles Parkire
+
+
+
 A responsive and dynamic social media dashboard built with **React**. This app allows users to view, post, favorite, and manage social posts in an engaging UI.
 
 ##  Features
