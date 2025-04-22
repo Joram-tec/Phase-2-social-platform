@@ -1,12 +1,42 @@
-# React + Vite
+## Social Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive and dynamic social media dashboard built with **React**. This app allows users to view, post, favorite, and manage social posts in an engaging UI.
 
-Currently, two official plugins are available:
+##  Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Post List Page** – Browse all public posts.
+-  **Add Post Page** – Add a new post with title and content.
+-  **Edit Post Page** – Edit an existing post.
+-  **Favourite Posts Page** – View only your favorite posts.
+-  **Post Details Page** – See detailed view of a post.
+-  Client-side Routing with `react-router-dom`
+-  Powered by Vite for fast development experience
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+##  Tech Stack
+
+- React
+- React Router DOM
+- Vite
+- CSS Modules / Tailwind CSS (optional)
+- JSON Server (for mock API)
+
+##  Installation
+
+1. Clone the repo:
+
+git clone https://github.com/Joram-tec/Phase-2-social-platform.git
+cd social-dashboard
+
+2. Install dependencies:##
+npm install
+npm run dev
+
+##  License
+MIT License
+
+## For the Mock data
+npx json-server --watch db.json --port 8000
+
+
