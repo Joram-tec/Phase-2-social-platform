@@ -27,7 +27,7 @@ function AddPost() {
     setIsSubmitting(true);
 
     try {
-      await axios.post('http://localhost:3001/posts', formData);
+      await axios.post('http://localhost:3000/posts', formData);
       navigate('/posts/1'); 
     } catch (error) {
       console.error('Error adding post:', error);

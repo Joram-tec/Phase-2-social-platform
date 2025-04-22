@@ -9,7 +9,7 @@ function PostListPage() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch('http://localhost:3001/posts'); 
+        const response = await fetch('http://localhost:3000/posts'); 
         const data = await response.json();
         setPosts(data);
         setLoading(false);

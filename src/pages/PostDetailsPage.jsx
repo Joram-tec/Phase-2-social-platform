@@ -9,7 +9,7 @@ function PostDetails() {
 
   useEffect(() => {
     const fetchPost = async () => {
-      const response = await axios.get(`http://localhost:3001/posts/${id}`);
+      const response = await axios.get(`http://localhost:3000/posts/${id}`);
       setPost(response.data);
     };
     fetchPost();
@@ -17,7 +17,7 @@ function PostDetails() {
 
   const toggleFavorite = async () => {
     const updatedPost = { ...post, isFavorite: !post.isFavorite };
-    await axios.patch(`http://localhost:3001/posts/${id}`, {
+    await axios.patch(`http://localhost:3000/posts/${id}`, {
       isFavorite: updatedPost.isFavorite
     });
     setPost(updatedPost);
