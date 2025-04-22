@@ -35,6 +35,8 @@ A responsive and dynamic social media dashboard built with **React**. This app a
 1. Clone the repo:
 
 git clone https://github.com/Joram-tec/Phase-2-social-platform.git
+
+2. Navigate to the folder
 cd social-dashboard
 
 2. Install dependencies:##
