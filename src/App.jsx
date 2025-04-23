@@ -5,7 +5,7 @@ import AddPostPage from "./pages/AddPostPage";
 import EditPostPage from "./pages/EditPostPage";
 import FavouritePostPage from "./pages/FavouritePostPage";
 import PostListPage from "./pages/PostListPage";
-import Footer from './Components/Footer';
+
 import './App.css';
 
 

@@ -28,6 +28,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  padding-top: 60px;
 }
 
 h1 {
@@ -182,9 +183,6 @@ button:focus-visible {
     width: 100%;
   }
 }
-/* AddPost.css - Modern Form Styling */
-
-/* Base Container */
 .container {
   max-width: 700px;
   margin: 2rem auto;
@@ -194,7 +192,6 @@ button:focus-visible {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* Header */
 h1 {
   color: #2d3748;
   font-size: 2rem;
@@ -203,7 +200,6 @@ h1 {
   text-align: center;
 }
 
-/* Form Elements */
 .form-label {
   display: block;
   margin-bottom: 0.5rem;
@@ -231,13 +227,11 @@ h1 {
   background-color: #ffffff;
 }
 
-/* Textarea Specific */
 textarea.form-control {
   min-height: 150px;
   resize: vertical;
 }
 
-/* Toggle Switches */
 .form-check {
   position: relative;
   margin-bottom: 1rem;
@@ -285,7 +279,6 @@ textarea.form-control {
   user-select: none;
 }
 
-/* Submit Button */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -321,7 +314,6 @@ textarea.form-control {
   transform: none;
 }
 
-/* Loading Animation */
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -339,7 +331,6 @@ textarea.form-control {
   animation: spin 0.8s linear infinite;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .container {
     padding: 1.5rem;
@@ -351,7 +342,6 @@ textarea.form-control {
   }
 }
 
-/* Validation States */
 .form-control:invalid:not(:focus):not(:placeholder-shown) {
   border-color: #fc8181;
 }

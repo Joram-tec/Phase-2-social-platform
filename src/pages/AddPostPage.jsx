@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 function AddPost() {
   const [formData, setFormData] = useState({
@@ -8,7 +7,7 @@ function AddPost() {
     author: '',
     content: '',
     isFavorite: false,
-    isBlocked: false
+    isBlocked: false,
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -16,33 +15,39 @@ function AddPost() {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === 'checkbox' ? checked : value,
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    try {
-      await axios.post('http://localhost:3000/posts', formData);
-      navigate('/posts/1'); 
-    } catch (error) {
-      console.error('Error adding post:', error);
-      alert('Failed to add post. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
+      fetch('http://localhost:3000/posts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    })
+      .then(() => {
+        navigate('/posts/1');
+      })
+      .catch((error) => {
+        console.error('Error adding post:', error);
+        alert('Failed to add post. Please try again.');
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
   return (
     <div className="container mt-4">
       <h1 className="mb-4">Create New Post</h1>
-      
+
       <form onSubmit={handleSubmit}>
-               <div className="mb-3">
+        <div className="mb-3">
           <label htmlFor="title" className="form-label">Title*</label>
           <input
             type="text"
@@ -54,8 +59,7 @@ function AddPost() {
             required
           />
         </div>
-        
-       
+
         <div className="mb-3">
           <label htmlFor="author" className="form-label">Author*</label>
           <input
@@ -68,8 +72,8 @@ function AddPost() {
             required
           />
         </div>
-        
-               <div className="mb-3">
+
+        <div className="mb-3">
           <label htmlFor="content" className="form-label">Content*</label>
           <textarea
             className="form-control"
@@ -81,8 +85,8 @@ function AddPost() {
             required
           ></textarea>
         </div>
-        
-         <div className="mb-3">
+
+        <div className="mb-3">
           <div className="form-check form-switch">
             <input
               className="form-check-input"
@@ -96,7 +100,7 @@ function AddPost() {
               Mark as Favorite
             </label>
           </div>
-          
+
           <div className="form-check form-switch">
             <input
               className="form-check-input"
@@ -111,8 +115,8 @@ function AddPost() {
             </label>
           </div>
         </div>
-        
-         <button
+
+        <button
           type="submit"
           className="btn btn-primary"
           disabled={isSubmitting}

@@ -1,43 +1,66 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import './PostListPage.css'; 
 
 function PostListPage() {
   const [posts, setPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/posts'); 
-        const data = await response.json();
+    fetch('http://localhost:3000/posts')
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Failed to fetch posts');
+        }
+        return res.json();
+      })
+      .then(data => {
         setPosts(data);
+        setFilteredPosts(data);
         setLoading(false);
-      } catch (err) {
-        setError('Failed to fetch posts');
+      })
+      .catch(err => {
+        setError(err.message);
         setLoading(false);
-      }
-    };
-
-    fetchPosts();
+      });
   }, []);
+
+  useEffect(() => {
+    const filtered = posts.filter(post =>
+      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.author.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredPosts(filtered);
+  }, [searchTerm, posts]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
   return (
-    <div>
+    <div className="post-list-container">
       <h1>All Posts</h1>
-      {posts.length === 0 ? (
-        <p>No posts found</p>
+
+      <input
+        type="text"
+        placeholder="Search by title or author..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="search-bar"
+      />
+
+      {filteredPosts.length === 0 ? (
+        <p className="no-posts">No posts found</p>
       ) : (
-        posts.map((post) => (
-          <div key={post.id}>
+        filteredPosts.map((post) => (
+          <div key={post.id} className="post-card">
             <h2>{post.title}</h2>
             <p>{post.author}</p>
-            <img alt='image' src={post.content} />
+            <img alt="image" src={post.content} />
             <button>
-                 <Link to={`/edit/1${post.id}`} >Edit</Link>
+              <Link to={`/edit/${post.id}`} style={{ color: 'white' }}>Edit</Link>
             </button>
           </div>
         ))
@@ -47,4 +70,3 @@ function PostListPage() {
 }
 
 export default PostListPage;
-

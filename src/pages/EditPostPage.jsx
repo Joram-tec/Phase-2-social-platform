@@ -1,39 +1,27 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
- 
+
 function EditPostPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [post, setPost] = useState({
-    title: "",
-    author: "",
-    content: "",
-    isFavorite: false,
-    isBlocked: false,
-  });
- 
+
+  const [post, setPost] = useState(null); 
+
   useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const response = await getPost(id);
-        setPost(response.data);
-      } catch (error) {
-        console.error("Error fetching post:", error);
-      }
-    };
-
-    fetchPost();
+    fetch(`http://localhost:3000/posts/${id}`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch post.");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setPost(data); 
+      })
+      .catch((err) => {
+        console.error("Error fetching post:", err);
+      });
   }, [id]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await updatePost(id, post);
-      navigate(`/post/${id}`);
-    } catch (error) {
-      console.error("Error updating post:", error);
-    }
-  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -43,63 +31,91 @@ function EditPostPage() {
     }));
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetch(`http://localhost:3000/posts/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(post),
+    })
+      .then((res) => res.json())
+      .then(() => {
+        navigate("/posts/1");
+      })
+      .catch((error) => {
+        console.error("Error updating post:", error);
+      });
+  };
+
+  if (!post) return <div>Loading post...</div>; 
   return (
-    <div className="edit-post">
-      <h1>Edit Post</h1>
+    <div className="container mt-4">
+      <h1 className="mb-4">Edit Post</h1>
       <form onSubmit={handleSubmit}>
-        <label>
-          Title:
+        <div className="mb-3">
+          <label htmlFor="title" className="form-label">Title</label>
           <input
             type="text"
+            className="form-control"
             name="title"
             value={post.title}
             onChange={handleChange}
             required
           />
-        </label>
-        <label>
-          Author:
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="author" className="form-label">Author</label>
           <input
             type="text"
+            className="form-control"
             name="author"
             value={post.author}
             onChange={handleChange}
             required
           />
-        </label>
-        <label>
-          Content:
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="content" className="form-label">Content</label>
           <textarea
+            className="form-control"
             name="content"
             value={post.content}
             onChange={handleChange}
+            rows="4"
             required
-          />
-        </label>
-        <label>
+          ></textarea>
+        </div>
+
+        <div className="form-check form-switch mb-2">
           <input
             type="checkbox"
+            className="form-check-input"
             name="isFavorite"
             checked={post.isFavorite}
             onChange={handleChange}
           />
-          Favorite
-        </label>
-        <label>
+          <label className="form-check-label">Favorite</label>
+        </div>
+
+        <div className="form-check form-switch mb-3">
           <input
             type="checkbox"
+            className="form-check-input"
             name="isBlocked"
             checked={post.isBlocked}
             onChange={handleChange}
           />
-          Block
-        </label>
-        <button type="submit">Update Post
-          
-        </button>
+          <label className="form-check-label">Blocked</label>
+        </div>
+
+        <button type="submit" className="btn btn-primary">Update Post</button>
       </form>
     </div>
   );
 }
-export default EditPostPage;
 
+export default EditPostPage;
