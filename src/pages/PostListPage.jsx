@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import './PostListPage.css'; 
+
 
 function PostListPage() {
   const [posts, setPosts] = useState([]);
