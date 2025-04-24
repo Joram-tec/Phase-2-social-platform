@@ -1,15 +1,6 @@
 import { useState } from 'react';
-
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./AddPostPage.css"; // Make sure this CSS file exists
-
-function AddPost() {
-  // ... rest of your component code
-}
-
-// Rest of your component code...
-import "./AddPostPage.css";
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function AddPost() {
   const [formData, setFormData] = useState({
