@@ -10,7 +10,7 @@ function PostListPage() {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:3000/posts')
+    fetch('https://json-server-dashboard-gamma.vercel.app/posts')
       .then(res => {
         if (!res.ok) {
           throw new Error('Failed to fetch posts');

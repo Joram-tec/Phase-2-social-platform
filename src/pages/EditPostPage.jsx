@@ -8,7 +8,7 @@ function EditPostPage() {
   const [post, setPost] = useState(null); 
 
   useEffect(() => {
-    fetch(`http://localhost:3000/posts/${id}`)
+    fetch(`https://json-server-dashboard-gamma.vercel.app/posts/${id}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Failed to fetch post.");
@@ -33,7 +33,7 @@ function EditPostPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:3000/posts/${id}`, {
+    fetch(`https://json-server-dashboard-gamma.vercel.app/posts/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -51,7 +51,7 @@ function EditPostPage() {
 
   if (!post) return <div>Loading post...</div>; 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4" style={{ maxWidth: "900px" }}>
       <h1 className="mb-4">Edit Post</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">

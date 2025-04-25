@@ -26,7 +26,7 @@ function AddPost() {
     e.preventDefault();
     setIsSubmitting(true);
 
-      fetch('http://localhost:3000/posts', {
+      fetch('https://json-server-dashboard-gamma.vercel.app/posts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
