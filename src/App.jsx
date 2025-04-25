@@ -18,7 +18,7 @@ function App() {
           <Route path="/add" element={<AddPostPage />} />
           <Route path="/edit/:id" element={<EditPostPage />} />
           <Route path="/favourites" element={<FavouritePostPage />} />
-          <Route path="/posts/:id" element={<PostListPage />} />
+          <Route path="/posts" element={<PostListPage />} />
         </Routes>
       </div>
   );

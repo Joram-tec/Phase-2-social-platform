@@ -2,10 +2,6 @@ import { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
- import{ useNavigate } from 'react-router-dom';
-
-
-
 function AddPost() {
   const [formData, setFormData] = useState({
     title: '',
@@ -36,7 +32,7 @@ function AddPost() {
       body: JSON.stringify(formData),
     })
       .then(() => {
-        navigate('/posts/1');
+        navigate('/posts');
       })
       .catch((error) => {
         console.error('Error adding post:', error);

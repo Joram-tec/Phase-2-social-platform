@@ -6,7 +6,7 @@ function Navbar() {
       <h2 style={styles.title}>Social Dashboard</h2>
       <ul style={styles.links}>
         <li><Link to="/" style={styles.link}>Home</Link></li>
-        <li><Link to="/posts/1" style={styles.link}>Posts</Link></li>
+        <li><Link to="/posts" style={styles.link}>Posts</Link></li>
         <li><Link to="/favourites" style={styles.link}>Favourites</Link></li>
         <li><Link to="/add" style={styles.link}>Add Post</Link></li>
         <li><Link to="/edit/1" style={styles.link}>Edit Post</Link></li>
