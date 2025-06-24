@@ -8,7 +8,11 @@ const FavoritePostsPage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+<<<<<<< HEAD
     fetch("https://json-server-dashboard-gamma.vercel.app/posts?isFavorite=true")
+=======
+    fetch("http://localhost:3000/posts?isFavorite=true")
+>>>>>>> 1a9c0d074dff2df5280c717ae96e06c840cad67d
       .then((response) => {
         if (!response.ok) {
           setError("Error fetching favorite posts.");
@@ -35,7 +39,11 @@ const FavoritePostsPage = () => {
       isFavorite: !postToUpdate.isFavorite,
     };
 
+<<<<<<< HEAD
     fetch(`https://json-server-dashboard-gamma.vercel.app/posts/${postId}`, {
+=======
+    fetch(`http://localhost:3000/posts/${postId}`, {
+>>>>>>> 1a9c0d074dff2df5280c717ae96e06c840cad67d
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -63,7 +71,11 @@ const FavoritePostsPage = () => {
       isBlocked: !postToUpdate.isBlocked,
     };
 
+<<<<<<< HEAD
     fetch(`https://json-server-dashboard-gamma.vercel.app/posts/${postId}`, {
+=======
+    fetch(`http://localhost:3000/posts/${postId}`, {
+>>>>>>> 1a9c0d074dff2df5280c717ae96e06c840cad67d
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -85,7 +97,11 @@ const FavoritePostsPage = () => {
   };
 
   const handleDelete = (postId) => {
+<<<<<<< HEAD
     fetch(`https://json-server-dashboard-gamma.vercel.app/posts/${postId}`, {
+=======
+    fetch(`http://localhost:3000/posts/${postId}`, {
+>>>>>>> 1a9c0d074dff2df5280c717ae96e06c840cad67d
       method: "DELETE",
     })
       .then((response) => {

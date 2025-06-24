@@ -42,7 +42,7 @@ function EditPostPage() {
     })
       .then((res) => res.json())
       .then(() => {
-        navigate("/posts/1");
+        navigate("/posts");
       })
       .catch((error) => {
         console.error("Error updating post:", error);
