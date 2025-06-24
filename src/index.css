@@ -375,14 +375,8 @@ textarea.form-control {
   .footer a:hover {
     text-decoration: underline;
   }
-  
-
-<<<<<<< HEAD
 }
  /* AddPost.css */
-=======
-
-}
 /* FavoritePosts.css */
 
 .favorite-posts-container {
@@ -561,7 +555,6 @@ textarea.form-control {
   }
 }
 /* AddPost.css */
->>>>>>> 1a9c0d074dff2df5280c717ae96e06c840cad67d
 
 /* Base Container Styles */
 .container {
@@ -797,10 +790,9 @@ textarea.form-control {
   color: #e53e3e;
   font-size: 0.875rem;
   margin-top: 0.25rem;
-<<<<<<< HEAD
+
 }
-=======
-}
+
 /* AddPostPage.css */
 
 .container {
@@ -973,4 +965,4 @@ h1 {
   background-color: #6c757d;
   cursor: not-allowed;
 }
->>>>>>> 1a9c0d074dff2df5280c717ae96e06c840cad67d
+
