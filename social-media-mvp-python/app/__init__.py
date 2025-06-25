@@ -7,6 +7,10 @@ from config import Config
 db = SQLAlchemy()
 migrate = Migrate()
 
+class Config:
+    SQLALCHEMY_DATABASE_URI = "sqlite:///app.db"
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
