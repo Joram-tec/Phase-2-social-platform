@@ -29,7 +29,7 @@ end
 # unset irrelevant variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/george/phase2/Phase-2-social-platform/social-media-mvp-python/venv"
+set -gx VIRTUAL_ENV "/home/joram/development/code/phase-2/platforms/social-dashboard/social-media-mvp-python/venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
