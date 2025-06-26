@@ -1,6 +1,6 @@
 from app import db
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug import generate_password_hash, check_password
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -13,7 +13,7 @@ class User(db.Model):
     posts = db.relationship('Post', backref='author', lazy=True)
     favorites = db.relationship('Favorite', backref='user', lazy=True)
     blocked_posts = db.relationship('BlockedPost', backref='user', lazy=True)
-    
+
     def to_dict(self):
         return {
             'id': self.id,
