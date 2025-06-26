@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
-from config import Config
+from app.config import Config
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -21,7 +21,7 @@ def create_app(config_class=Config):
     
     from app.routes import bp as api_bp
     app.register_blueprint(api_bp, url_prefix='/api')
-    
+
+    from app import models
     return app
 
-from app import models
