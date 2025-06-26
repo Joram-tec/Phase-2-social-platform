@@ -9,7 +9,7 @@ bp = Blueprint('routes', __name__)
 def create_user():
     data = request.get_json()
     if not data or not data.get('email') or not data.get('password'):
-        return jsonify({'error': 'Missing required fields'}), 400
+        return jsonify({'error': 'Missing mandatory fields'}), 400
 
     if User.query.filter_by(email=data['email']).first():
         return jsonify({'error': 'Email already exists'}), 409
