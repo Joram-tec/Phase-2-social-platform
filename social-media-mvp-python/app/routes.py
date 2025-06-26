@@ -99,7 +99,7 @@ def remove_favorite(favorite_id):
 
     db.session.delete(favorite)
     db.session.commit()
-    return jsonify({'message': 'Favorite removed successfully'}), 200
+    return jsonify({'message': 'Favorite removed successfully!'}), 200
 
 @bp.route('/blocked-posts', methods=['POST'])
 @jwt_required()
