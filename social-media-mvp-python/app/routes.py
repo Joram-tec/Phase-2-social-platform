@@ -105,6 +105,20 @@ def delete_post(post_id):
     db.session.commit()
     return jsonify({'message': 'Post deleted successfully'}), 200
 
+@bp.route('/posts/<int:post_id>', methods=['PUT'])
+@jwt_required()
+def update_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.user_id != get_jwt_identity():
+        return jsonify({'error': 'Unauthorized'}), 403
+    data = request.get_json()
+    post.title = data.get('title', post.title)
+    post.content = data.get('content', post.content)
+    post.image_url = data.get('image_url', post.image_url)
+    db.session.commit()
+    return jsonify(post.to_dict()), 200
+
+
 @bp.route('/favorites', methods=['POST'])
 @jwt_required()
 def add_favorite():
