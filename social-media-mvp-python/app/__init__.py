@@ -1,21 +1,28 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from flask_jwt_extended import JWTManager
 from flask_cors import CORS
-from .models import db
-from .routes import bp as routes_bp
-from config import Config
+from flask_jwt_extended import JWTManager
+
+db = SQLAlchemy()
+migrate = Migrate()
+jwt = JWTManager()
 
 def create_app():
-    app = Flask(__name__, static_folder=None)
-    app.config.from_object(Config)
+    app = Flask(__name__)
+    app.config.from_object('config.Config') 
 
     db.init_app(app)
-    Migrate(app, db)
-    JWTManager(app)
-    CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}},  supports_credentials=True, expose_headers=["Authorization"] )
+    migrate.init_app(app, db)
+    jwt.init_app(app)
 
-    app.register_blueprint(routes_bp, url_prefix='/api')
+    CORS(
+        app,
+        resources={r"/api/*": {"origins": ["http://localhost:5173", "https://phase-2-social-platform-backend.onrender.com"]}},
+        supports_credentials=False,
+        send_wildcard=False
+    )
+
+    from .routes import bp
+    app.register_blueprint(bp, url_prefix='/api')
     return app
-
-
