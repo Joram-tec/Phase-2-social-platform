@@ -10,19 +10,21 @@ jwt = JWTManager()
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object('config.Config') 
+    app.config.from_object('config.Config')  
 
     db.init_app(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
-
+    
     CORS(
         app,
-        resources={r"/api/*": {"origins": ["http://localhost:5173", "https://phase-2-social-platform-backend.onrender.com"]}},
-        supports_credentials=False,
-        send_wildcard=False
+        resources={r"/api/*": {"origins": "http://localhost:5173"}},
+        supports_credentials=True,
+        allow_headers=["Content-Type", "Authorization"],
+        expose_headers=["Content-Type", "Authorization"],
+        methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     )
 
-    from .routes import bp
-    app.register_blueprint(bp, url_prefix='/api')
+    from .routes import bp as routes_bp
+    app.register_blueprint(routes_bp, url_prefix='/api')
     return app
