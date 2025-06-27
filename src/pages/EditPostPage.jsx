@@ -8,7 +8,7 @@ function EditPostPage() {
   const [post, setPost] = useState(null); 
 
   useEffect(() => {
-    fetch(`https://json-server-dashboard-gamma.vercel.app/posts/${id}`)
+    fetch(`http://127.0.0.1:5555/api/posts/${id}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Failed to fetch post.");
@@ -33,7 +33,7 @@ function EditPostPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`https://json-server-dashboard-gamma.vercel.app/posts/${id}`, {
+    fetch(`http://127.0.0.1:5555/api/posts/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

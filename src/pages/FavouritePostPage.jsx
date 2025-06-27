@@ -7,8 +7,8 @@ const FavoritePostsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetch("https://json-server-dashboard-gamma.vercel.app/posts?isFavorite=true")
+  useEffect(() => {true
+    fetch("http://127.0.0.1:5555/api/favorites")
       .then((response) => {
         if (!response.ok) {
           setError("Error fetching favorite posts.");
@@ -34,7 +34,7 @@ const FavoritePostsPage = () => {
       ...postToUpdate,
       isFavorite: !postToUpdate.isFavorite,
     };
-    fetch(`https://json-server-dashboard-gamma.vercel.app/posts/${postId}`, {
+    fetch(`http://127.0.0.1:5555/api/posts/${postId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -62,7 +62,7 @@ const FavoritePostsPage = () => {
       isBlocked: !postToUpdate.isBlocked,
     };
 
-    fetch(`https://json-server-dashboard-gamma.vercel.app/posts/${postId}`, {
+    fetch(`http://127.0.0.1:5555/api/posts/${postId}`, {
 
       method: "PUT",
       headers: {
@@ -85,7 +85,7 @@ const FavoritePostsPage = () => {
   };
 
   const handleDelete = (postId) => {
-    fetch(`https://json-server-dashboard-gamma.vercel.app/posts/${postId}`, {
+    fetch(`http://127.0.0.1:5555/api/posts/${postId}`, {
       method: "DELETE",
     })
       .then((response) => {
