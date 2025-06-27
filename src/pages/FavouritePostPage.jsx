@@ -1,134 +1,80 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+// FavouritePostPage.jsx
 
-const FavoritePostsPage = () => {
-  const [favoritePosts, setFavoritePosts] = useState([]);
-  const [filteredPosts, setFilteredPosts] = useState([]);
+import React, { useState, useEffect } from 'react';
+
+const API_URL = 'https://phase-2-social-platform-backend.onrender.com';
+
+function FavouritePostPage() {
+  const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {true
-    fetch("https://phase-2-social-platform-backend.onrender.com/api/favorites")
-      .then((response) => {
-        if (!response.ok) {
-          setError("Error fetching favorite posts.");
-          setLoading(false);
-          throw new Error("Failed to fetch posts");
+  useEffect(() => {
+    const token = localStorage.getItem('access_token');
+
+    fetch(`${API_URL}/api/favorites`, {
+      method: 'GET',
+      credentials: 'include', // ✅ Include token/cookies
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token ? `Bearer ${token}` : ''
+      }
+    })
+      .then(res => {
+        if (!res.ok) {
+          if (res.status === 401) {
+            throw new Error('Please log in to view favorites');
+          }
+          throw new Error('Failed to fetch favorites');
         }
-        return response.json();
+        return res.json();
       })
-      .then((data) => {
-        setFavoritePosts(data);
-        setFilteredPosts(data);
+      .then(data => {
+        setFavorites(data);
         setLoading(false);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(err => {
+        setError(err.message);
         setLoading(false);
       });
   }, []);
 
-    const handleToggleFavorite = (postId) => {
-    const postToUpdate = favoritePosts.find((post) => post.id === postId);
-    const updatedPost = {
-      ...postToUpdate,
-      isFavorite: !postToUpdate.isFavorite,
-    };
-    fetch(`https://phase-2-social-platform-backend.onrender.com/api/posts/${postId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedPost),
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error("Failed to update favorite status");
-        return response.json();
-      })
-      .then(() => {
-          const updated = favoritePosts.map((post) =>
-          post.id === postId ? updatedPost : post
-        );
-        setFavoritePosts(updated);
-        setFilteredPosts(updated);
-      })
-      .catch((err) => console.error("Error toggling favorite:", err));
-  };
-
-  const handleToggleBlock = (postId) => {
-    const postToUpdate = favoritePosts.find((post) => post.id === postId);
-    const updatedPost = {
-      ...postToUpdate,
-      isBlocked: !postToUpdate.isBlocked,
-    };
-
-    fetch(`https://phase-2-social-platform-backend.onrender.com/api/posts/${postId}`, {
-
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedPost),
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error("Failed to block/unblock post");
-        return response.json();
-      })
-      .then(() => {
-        const updated = favoritePosts.map((post) =>
-          post.id === postId ? updatedPost : post
-        );
-        setFavoritePosts(updated);
-        setFilteredPosts(updated);
-      })
-      .catch((error) => console.error("Error toggling block:", error));
-  };
-
-  const handleDelete = (postId) => {
-    fetch(`https://phase-2-social-platform-backend.onrender.com/api/posts/${postId}`, {
-      method: "DELETE",
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error("Failed to delete post");
-        return response.json();
-      })
-      .then(() => {
-        const updated = favoritePosts.filter((post) => post.id !== postId);
-        setFavoritePosts(updated);
-        setFilteredPosts(updated);
-      })
-      .catch((error) => console.error("Error deleting post:", error));
-  };
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <div>Loading favorites...</div>;
+  if (error) return <div style={{ color: 'red' }}>{error}</div>;
 
   return (
-    <div className="favorite-posts-container">
-      <h1>Favorite Posts</h1>
-        {filteredPosts.length === 0 ? (
-        <p>No favorite posts found.
-           <Link to="/">Posts</Link></p>
-              ) : (
-        <div className="posts-grid">
-          {filteredPosts.map((post) => (
-            <div key={post.id} className="post-card">
-              {post.image && <img src={post.content} alt={'image'} className="post-image" />} 
-                  <h2>{post.title}</h2>
-              <p>{post.author}</p>
-              <button onClick={() => handleToggleFavorite(post.id)}>
-                {post.isFavorite ? "Unfavorite" : "Favorite"}
-              </button>
-              <button onClick={() => handleToggleBlock(post.id)}>
-                {post.isBlocked ? "Unblock" : "Block"}
-              </button>
-              <button onClick={() => handleDelete(post.id)}>Delete</button>
+    <div className="favorite-list-container">
+      <h1>Your Favorites</h1>
+
+      {favorites.length === 0 ? (
+        <p>No favorites yet.</p>
+      ) : (
+        favorites.map(fav => {
+          const post = fav.post;
+          return post ? (
+            <div key={fav.favorite_id} className="favorite-card">
+              <h3>{post.title}</h3>
+
+              {post.imageUrl && (
+                <img
+                  src={post.imageUrl}
+                  alt={post.title}
+                  style={{ maxWidth: '100%', height: 'auto' }}
+                  onError={e => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/150'; }}
+                />
+              )}
+
+              <p>{post.content}</p>
             </div>
-          ))}
-        </div>
+          ) : (
+            <div key={fav.favorite_id} className="favorite-card">
+              <p>Post no longer available</p>
+            </div>
+          );
+        })
       )}
     </div>
   );
-};
+}
 
-export default FavoritePostsPage;
+export default FavouritePostPage;

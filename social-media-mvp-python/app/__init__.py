@@ -13,7 +13,9 @@ def create_app():
     db.init_app(app)
     Migrate(app, db)
     JWTManager(app)
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}},  supports_credentials=True, expose_headers=["Authorization"] )
 
     app.register_blueprint(routes_bp, url_prefix='/api')
     return app
+
+

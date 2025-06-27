@@ -1,5 +1,8 @@
+# config.py
+import os
+
 class Config:
-    SQLALCHEMY_DATABASE_URI = "sqlite:///app.db"
+    SECRET_KEY = os.getenv('SECRET_KEY', 'you-should-change-this')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SECRET_KEY = "joram1234"
-    JWT_SECRET_KEY = "joram1234"
+    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'another-secret')
