@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './AddPostPage.css';
 
 const API_URL = 'https://phase-2-social-platform-backend.onrender.com/api';
 
