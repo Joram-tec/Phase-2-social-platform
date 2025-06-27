@@ -41,7 +41,7 @@ class Post(db.Model):
             'title': self.title,
             'content': self.content,
             'imageUrl': self.image_url,
-            'author': self.user.name if self.user else "Unknown Author",
+            'author': self.author.name if self.author else "Unknown Author",
             'userId': self.user_id
         }
 
