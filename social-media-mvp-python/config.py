@@ -6,6 +6,3 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     JWT_SECRET_KEY = os.getenv('joram1234', 'joram1234')
     JWT_ACCESS_TOKEN_EXPIRES = 3600 
-
-   
-   
