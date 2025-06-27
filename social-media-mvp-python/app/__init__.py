@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from app.config import Config
+from .routes import bp
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -20,6 +21,7 @@ def create_app(config_class=Config):
 
     from app.routes import bp as api_bp
     app.register_blueprint(api_bp, url_prefix='/api')
+
 
     from app import models  
     return app

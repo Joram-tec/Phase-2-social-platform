@@ -7,7 +7,9 @@ from .models import db, User, Post, Favorite, BlockedPost
 
 bp = Blueprint('routes', __name__)
 
-# ---------------- AUTH ----------------
+@bp.route('/')
+def root():
+    return jsonify({"message": "API is running"}), 200
 
 @bp.route('/register', methods=['POST'])
 def register():
@@ -52,8 +54,6 @@ def get_current_user():
     user = User.query.get_or_404(user_id)
     return jsonify(user.to_dict()), 200
 
-# ---------------- USERS ----------------
-
 @bp.route('/users/<int:user_id>', methods=['GET'])
 @jwt_required()
 def get_user(user_id):
@@ -63,8 +63,6 @@ def get_user(user_id):
 
     user = User.query.get_or_404(user_id)
     return jsonify(user.to_dict()), 200
-
-# ---------------- POSTS ----------------
 
 @bp.route('/posts', methods=['POST'])
 @jwt_required()
@@ -107,8 +105,6 @@ def delete_post(post_id):
     db.session.commit()
     return jsonify({'message': 'Post deleted successfully'}), 200
 
-# ---------------- FAVORITES ----------------
-
 @bp.route('/favorites', methods=['POST'])
 @jwt_required()
 def add_favorite():
@@ -145,7 +141,6 @@ def get_favorites():
     user_id = get_jwt_identity()
     favorites = Favorite.query.filter_by(user_id=user_id).all()
 
-    # Include full post details in response
     result = []
     for fav in favorites:
         post = Post.query.get(fav.post_id)
@@ -155,8 +150,6 @@ def get_favorites():
         })
 
     return jsonify(result), 200
-
-# ---------------- BLOCKED POSTS ----------------
 
 @bp.route('/blocked-posts', methods=['POST'])
 @jwt_required()
