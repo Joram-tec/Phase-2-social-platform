@@ -1,132 +1,67 @@
 import { useState } from 'react';
-
 import { useNavigate } from 'react-router-dom';
+import './AddPostPage.css';
 
-function AddPost() {
-  const [formData, setFormData] = useState({
-    title: '',
-    author: '',
-    content: '',
-    isFavorite: false,
-    isBlocked: false,
-  });
+const API_URL = 'https://phase-2-social-platform-backend.onrender.com/api';
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+export default function AddPostPage() {
+  const [post, setPost] = useState({ title: '', content: '', imageUrl: '' });
   const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
-      fetch('https://phase-2-social-platform-backend.onrender.com/api/posts', {
+    fetch(`${API_URL}/posts`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+      },
+      body: JSON.stringify(post)
     })
-      .then(() => {
-        navigate('/posts');
-      })
-      .catch((error) => {
-        console.error('Error adding post:', error);
-        alert('Failed to add post. Please try again.');
-      })
-      .finally(() => {
-        setIsSubmitting(false);
-      });
+    .then(() => navigate('/posts'))
+    .catch(error => console.error('Error creating post:', error));
   };
 
   return (
-    <div className="container mt-4">
-      <h1 className="mb-4">Create New Post</h1>
-
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label htmlFor="title" className="form-label">Title*</label>
+    <div className="container">
+      <h1>Add New Post</h1>
+      <form onSubmit={handleSubmit} className="post-form">
+        <div className="form-group">
+          <label>Title</label>
           <input
-            type="text"
-            className="form-control"
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
+            value={post.title}
+            onChange={(e) => setPost({...post, title: e.target.value})}
+            placeholder="Title"
             required
           />
         </div>
-
-        <div className="mb-3">
-          <label htmlFor="author" className="form-label">Author*</label>
-          <input
-            type="text"
-            className="form-control"
-            id="author"
-            name="author"
-            value={formData.author}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="mb-3">
-          <label htmlFor="content" className="form-label">Content*</label>
+        <div className="form-group">
+          <label>Content</label>
           <textarea
-            className="form-control"
-            id="content"
-            name="content"
-            rows="5"
-            value={formData.content}
-            onChange={handleChange}
+            value={post.content}
+            onChange={(e) => setPost({...post, content: e.target.value})}
+            placeholder="Content"
             required
-          ></textarea>
+          />
         </div>
-
-        <div className="mb-3">
-          <div className="form-check form-switch">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              id="isFavorite"
-              name="isFavorite"
-              checked={formData.isFavorite}
-              onChange={handleChange}
-            />
-            <label className="form-check-label" htmlFor="isFavorite">
-              Mark as Favorite
-            </label>
-          </div>
-
-          <div className="form-check form-switch">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              id="isBlocked"
-              name="isBlocked"
-              checked={formData.isBlocked}
-              onChange={handleChange}
-            />
-            <label className="form-check-label" htmlFor="isBlocked">
-              Block Post
-            </label>
-          </div>
+        <div className="form-group">
+          <label>Image URL (optional)</label>
+          <input
+            value={post.imageUrl}
+            onChange={(e) => setPost({...post, imageUrl: e.target.value})}
+            placeholder="Image URL"
+          />
+          {post.imageUrl && (
+            <div className="image-preview">
+              <img src={post.imageUrl} alt="Preview" onError={(e) => e.target.style.display = 'none'} />
+            </div>
+          )}
         </div>
-
-        <button
-          type="submit"
-          className="btn btn-primary"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? 'Submitting...' : 'Create Post'}
+        <button type="submit" className="submit-btn">Create Post</button>
+        <button type="button" className="cancel-btn" onClick={() => navigate('/posts')}>
+          Cancel
         </button>
       </form>
     </div>
   );
 }
-
-export default AddPost;

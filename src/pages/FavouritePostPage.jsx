@@ -1,83 +1,56 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './PostListPage.css'; // Reuse styles
+import './FavoritesPage.css';
 
 const API_URL = 'https://phase-2-social-platform-backend.onrender.com/api';
 
 export default function FavoritesPage() {
   const [favorites, setFavorites] = useState([]);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchFavorites = async () => {
-      try {
-        setLoading(true);
-        const token = localStorage.getItem('access_token');
-        
-        const res = await fetch(`${API_URL}/favorites`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        
-        if (!res.ok) throw new Error(res.status === 401 
-          ? 'Please login to view favorites' 
-          : 'Failed to fetch favorites');
-        
-        const data = await res.json();
-        setFavorites(data);
-      } catch (error) {
-        console.error('Error:', error.message);
-        if (error.message.includes('login')) {
-          navigate('/login');
-        }
-      } finally {
-        setLoading(false);
+    fetch(`${API_URL}/favorites`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
       }
-    };
+    })
+      .then(res => res.json())
+      .then(data => setFavorites(data || []))
+      .catch(error => console.error('Error fetching favorites:', error));
+  }, []);
 
-    fetchFavorites();
-  }, [navigate]);
+  const removeFavorite = (postId) => {
+    fetch(`${API_URL}/posts/${postId}/favorite`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+      }
+    })
+    .then(() => {
+      setFavorites(favorites.filter(fav => fav.post.id !== postId));
+    })
+    .catch(error => console.error('Error removing favorite:', error));
+  };
 
   return (
-    <div className="post-list-container">
-      <h1>Your Favorite Posts</h1>
-      
-      {loading ? (
-        <div className="loader">Loading favorites...</div>
-      ) : favorites.length === 0 ? (
-        <div className="empty-state">
-          <p>You haven't favorited any posts yet</p>
-          <button onClick={() => navigate('/posts')}>
-            Browse Posts
-          </button>
-        </div>
+    <div className="container">
+      <h1>Your Favorites</h1>
+      {favorites.length === 0 ? (
+        <p>No favorites yet</p>
       ) : (
-        <div className="posts-grid">
+        <div className="posts">
           {favorites.map(fav => (
-            <article key={fav.id} className="post-card">
-              {fav.post.image_url && (
-                <img 
-                  src={fav.post.image_url} 
-                  alt={fav.post.title}
-                  onError={(e) => e.target.src = '/default-post.jpg'}
-                />
-              )}
-              <div className="post-content">
-                <h2 onClick={() => navigate(`/posts/${fav.post.id}`)}>
-                  {fav.post.title}
-                </h2>
-                <p className="post-meta">
-                  Favorited on {new Date(fav.created_at).toLocaleDateString()}
-                </p>
-                <p className="post-excerpt">
-                  {fav.post.content.length > 100 
-                    ? `${fav.post.content.substring(0, 100)}...` 
-                    : fav.post.content}
-                </p>
-              </div>
-            </article>
+            <div key={fav.post.id} className="post">
+              {fav.post.imageUrl && <img src={fav.post.imageUrl} alt={fav.post.title} onError={(e) => e.target.style.display = 'none'} />}
+              <h3>{fav.post.title}</h3>
+              <p>{fav.post.content}</p>
+              <button 
+                className="favorite active"
+                onClick={() => removeFavorite(fav.post.id)}
+              >
+                ★ Remove Favorite
+              </button>
+            </div>
           ))}
         </div>
       )}

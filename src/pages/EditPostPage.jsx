@@ -1,46 +1,88 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import './EditPostPage.css';
 
-function EditPostPage() {
+const API_URL = 'https://phase-2-social-platform-backend.onrender.com/api';
+
+export default function EditPostPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [post, setPost] = useState(null);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
-  const [error, setError] = useState('');
+  const [post, setPost] = useState({ title: '', content: '', imageUrl: '' });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`https://phase-2-social-platform-backend.onrender.com/api/posts/${id}`)
-      .then(res => { if (!res.ok) throw new Error('Post not found'); return res.json(); })
-      .then(data => { setPost(data); setTitle(data.title); setContent(data.content); setImageUrl(data.imageUrl); })
-      .catch(err => setError(err.message));
+    fetch(`${API_URL}/posts/${id}`)
+      .then(res => res.json())
+      .then(data => {
+        setPost({
+          title: data.title,
+          content: data.content,
+          imageUrl: data.imageUrl || ''
+        });
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching post:', error);
+        setIsLoading(false);
+      });
   }, [id]);
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`https://phase-2-social-platform-backend.onrender.com/api/posts/${id}`, {
+    fetch(`${API_URL}/posts/${id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('access_token')}` },
-      body: JSON.stringify({ title, content, image_url: imageUrl })
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+      },
+      body: JSON.stringify(post)
     })
-    .then(res => { if (!res.ok) throw new Error('Update failed'); return res.json(); })
-    .then(() => navigate('/'))
-    .catch(err => setError(err.message));
+    .then(() => navigate('/posts'))
+    .catch(error => console.error('Error updating post:', error));
   };
 
-  if (error) return <div style={{ color: 'red' }}>{error}</div>;
-  if (!post) return <div>Loading post...</div>;
+  if (isLoading) return <div className="container">Loading...</div>;
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Edit Post</h2>
-      <input value={title} onChange={e => setTitle(e.target.value)} />
-      <input value={imageUrl} onChange={e => setImageUrl(e.target.value)} />
-      <textarea value={content} onChange={e => setContent(e.target.value)} />
-      <button type="submit">Save</button>
-    </form>
+    <div className="container">
+      <h1>Edit Post</h1>
+      <form onSubmit={handleSubmit} className="post-form">
+        <div className="form-group">
+          <label>Title</label>
+          <input
+            value={post.title}
+            onChange={(e) => setPost({...post, title: e.target.value})}
+            placeholder="Title"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Content</label>
+          <textarea
+            value={post.content}
+            onChange={(e) => setPost({...post, content: e.target.value})}
+            placeholder="Content"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Image URL (optional)</label>
+          <input
+            value={post.imageUrl}
+            onChange={(e) => setPost({...post, imageUrl: e.target.value})}
+            placeholder="Image URL"
+          />
+          {post.imageUrl && (
+            <div className="image-preview">
+              <img src={post.imageUrl} alt="Preview" onError={(e) => e.target.style.display = 'none'} />
+            </div>
+          )}
+        </div>
+        <button type="submit" className="submit-btn">Update Post</button>
+        <button type="button" className="cancel-btn" onClick={() => navigate('/posts')}>
+          Cancel
+        </button>
+      </form>
+    </div>
   );
 }
-
-export default EditPostPage;

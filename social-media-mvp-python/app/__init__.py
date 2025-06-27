@@ -17,19 +17,10 @@ def create_app():
     migrate.init_app(app, db)
     jwt.init_app(app)
 
-    # Enhanced CORS configuration
     CORS(
         app,
-        resources={
-            r"/api/*": {
-                "origins": ["http://localhost:5173", "https://your-frontend-domain.com"],
-                "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-                "allow_headers": ["Content-Type", "Authorization"],
-                "expose_headers": ["Content-Type", "Authorization"],
-                "supports_credentials": True,
-                "max_age": 3600
-            }
-        }
+        resources={r"/api/*": {"origins": "http://localhost:5173"}},
+        supports_credentials=True
     )
 
     # Register blueprints
