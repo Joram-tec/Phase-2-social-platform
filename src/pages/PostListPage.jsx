@@ -10,7 +10,7 @@ function PostListPage() {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    fetch('http://127.0.0.1:5555/api/posts')
+    fetch('https://phase-2-social-platform-backend.onrender.com/api/posts')
       .then(res => {
         if (!res.ok) {
           throw new Error('Failed to fetch posts');

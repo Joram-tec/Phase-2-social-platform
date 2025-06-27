@@ -8,7 +8,7 @@ function EditPostPage() {
   const [post, setPost] = useState(null); 
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:5555/api/posts/${id}`)
+    fetch(`https://phase-2-social-platform-backend.onrender.com/api/posts/${id}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Failed to fetch post.");
@@ -33,7 +33,7 @@ function EditPostPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`http://127.0.0.1:5555/api/posts/${id}`, {
+    fetch(`https://phase-2-social-platform-backend.onrender.com/api/posts/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

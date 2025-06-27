@@ -26,7 +26,7 @@ function AddPost() {
     e.preventDefault();
     setIsSubmitting(true);
 
-      fetch('http://127.0.0.1:5555/api/posts', {
+      fetch('https://phase-2-social-platform-backend.onrender.com/api/posts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
