@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from app import db
-
+from datetime import datetime
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -22,6 +22,7 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     image_url = db.Column(db.String(255))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     favorites = db.relationship('Favorite', backref='post', lazy=True)
     blocked_by = db.relationship('BlockedPost', backref='post', lazy=True)

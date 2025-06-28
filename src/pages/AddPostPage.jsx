@@ -4,33 +4,43 @@ import { useNavigate } from 'react-router-dom';
 const API_URL = 'https://phase-2-social-platform-backend.onrender.com/api';
 
 export default function AddPostPage() {
-  const [post, setPost] = useState({ title: '', content: '', imageUrl: '' });
+  const [post, setPost] = useState({ title: '', content: '', image_url: '' });
   const [imageError, setImageError] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    fetch(`${API_URL}/posts`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('access_token') || 'demo-token'}`  // fallback token if unauth
-      },
-      body: JSON.stringify(post)
-    })
-    .then(res => {
+  const payload = {
+    title: post.title.trim(),
+    content: post.content.trim(),
+    image_url: post.imageUrl.trim() || null,
+  };
+
+  console.log("Sending payload:", payload);
+
+  fetch(`${API_URL}/posts`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+    },
+    body: JSON.stringify(payload),
+  })
+    .then(async (res) => {
+      const data = await res.json();
       if (!res.ok) {
-        throw new Error('Failed to create post');
+        console.error("Backend responded with error:", data);
+        throw new Error(data?.error || 'Failed to create post');
       }
-      return res.json();
+      return data;
     })
     .then(() => {
       setPost({ title: '', content: '', imageUrl: '' });
-      navigate('/posts'); // Go to Post List
+      navigate('/posts');
     })
-    .catch(error => console.error('Error creating post:', error));
-  };
+    .catch(error => console.error('❌ Error creating post:', error.message));
+};
 
   return (
     <div className="container">
@@ -61,17 +71,17 @@ export default function AddPostPage() {
           <label>Image URL (optional)</label>
           <input
             type="url"
-            value={post.imageUrl}
+            value={post.image_url}
             onChange={(e) => {
-              setPost({ ...post, imageUrl: e.target.value });
+              setPost({ ...post, image_url: e.target.value });
               setImageError(false);
             }}
             placeholder="Image URL"
           />
-          {post.imageUrl && !imageError && (
+          {post.image_url && !imageError && (
             <div className="image-preview">
               <img
-                src={post.imageUrl}
+                src={post.image_url}
                 alt="Preview"
                 onError={() => setImageError(true)}
                 style={{ maxWidth: '100%', height: 'auto', marginTop: '10px' }}
