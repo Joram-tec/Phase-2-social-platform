@@ -9,38 +9,38 @@ export default function AddPostPage() {
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const payload = {
-    title: post.title.trim(),
-    content: post.content.trim(),
-    image_url: post.imageUrl.trim() || null,
+    const payload = {
+      title: post.title.trim(),
+      content: post.content.trim(),
+      image_url: post.image_url?.trim() || null,
+    };
+
+    console.log("Sending payload:", payload);
+
+    fetch(`${API_URL}/posts`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // ✅ No Authorization header needed
+      },
+      body: JSON.stringify(payload),
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) {
+          console.error("Backend responded with error:", data);
+          throw new Error(data?.error || 'Failed to create post');
+        }
+        return data;
+      })
+      .then(() => {
+        setPost({ title: '', content: '', image_url: '' });
+        navigate('/posts');
+      })
+      .catch(error => console.error('❌ Error creating post:', error.message));
   };
-
-  console.log("Sending payload:", payload);
-
-  fetch(`${API_URL}/posts`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
-    },
-    body: JSON.stringify(payload),
-  })
-    .then(async (res) => {
-      const data = await res.json();
-      if (!res.ok) {
-        console.error("Backend responded with error:", data);
-        throw new Error(data?.error || 'Failed to create post');
-      }
-      return data;
-    })
-    .then(() => {
-      setPost({ title: '', content: '', imageUrl: '' });
-      navigate('/posts');
-    })
-    .catch(error => console.error('❌ Error creating post:', error.message));
-};
 
   return (
     <div className="container">

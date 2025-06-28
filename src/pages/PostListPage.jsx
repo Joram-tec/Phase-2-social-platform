@@ -17,7 +17,7 @@ export default function PostListPage() {
         return res.json();
       })
       .then(data => {
-        setPosts(Array.isArray(data) ? data : []);
+        setPosts(Array.isArray(data.posts) ? data.posts : []);
       })
       .catch(err => console.error('Error:', err.message))
       .finally(() => setLoading(false));
@@ -26,40 +26,6 @@ export default function PostListPage() {
   useEffect(() => {
     fetchPosts();
   }, []);
-
-  const handleDelete = (id) => {
-    if (!window.confirm('Are you sure you want to delete this post?')) return;
-
-    fetch(`${API_URL}/posts/${id}`, {
-      method: 'DELETE',
-      // No headers needed since this is unlocked for frontend
-    })
-      .then(res => {
-        if (!res.ok) throw new Error('Failed to delete post');
-        fetchPosts();
-      })
-      .catch(err => alert('Delete failed: ' + err.message));
-  };
-
-  const toggleFavorite = (post) => {
-    if (post.isFavorite) {
-      fetch(`${API_URL}/favorites/${post.favoriteId}`, {
-        method: 'DELETE',
-      })
-        .then(() => fetchPosts())
-        .catch(err => alert('Unfavorite failed: ' + err.message));
-    } else {
-      fetch(`${API_URL}/favorites`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ postId: post.id }),
-      })
-        .then(() => fetchPosts())
-        .catch(err => alert('Favorite failed: ' + err.message));
-    }
-  };
 
   return (
     <div className="container">
@@ -74,9 +40,9 @@ export default function PostListPage() {
         ) : (
           posts.map(post => (
             <div key={post.id} className="post">
-              {post.imageUrl && (
+              {post.image_url && (
                 <img
-                  src={post.imageUrl}
+                  src={post.image_url}
                   alt={post.title}
                   style={{
                     maxWidth: '100%',
@@ -92,13 +58,14 @@ export default function PostListPage() {
               <p>{post.content}</p>
               <div className="post-actions">
                 <button onClick={() => navigate(`/edit/${post.id}`)}>Edit</button>
+                {/* Auth-only feature removed:
                 <button className="delete" onClick={() => handleDelete(post.id)}>Delete</button>
                 <button
                   className={post.isFavorite ? 'favorite active' : 'favorite'}
                   onClick={() => toggleFavorite(post)}
                 >
                   {post.isFavorite ? '★' : '☆'} Favorite
-                </button>
+                </button> */}
               </div>
             </div>
           ))
