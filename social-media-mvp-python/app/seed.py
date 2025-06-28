@@ -1,5 +1,5 @@
 from app import create_app, db
-from app.models import User, Post
+from app.models import User, Post, Favorite, BlockedPost
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 
@@ -53,8 +53,17 @@ def seed_database():
                 user_id=user5.id
             )
         ]
-
+        
         db.session.add_all(posts)
+        db.session.commit()
+
+        favorite = Favorite(user_id=user1.id, post_id=posts[4].id)
+        db.session.add(favorite)
+
+    
+        blocked = BlockedPost(user_id=user1.id, post_id=posts[3].id)
+        db.session.add(blocked)
+
         db.session.commit()
 
         print("✅ Database seeded with 5 users and 5 posts!")
