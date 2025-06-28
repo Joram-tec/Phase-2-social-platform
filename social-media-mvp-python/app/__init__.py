@@ -18,7 +18,7 @@ def create_app(config_class='config.Config'):
 
     from app import models
   
-    CORS(app, origins=["http://localhost:5173", "https://your-frontend-on-render.com"], supports_credentials=True)
+    CORS(app, origins=["http://localhost:5173", "https://phase-2-social-platform-backend.onrender.com/api"], supports_credentials=True)
 
     from app.routes import bp as api_bp
     app.register_blueprint(api_bp, url_prefix='/api')
